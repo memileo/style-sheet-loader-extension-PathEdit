@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Service
+ServiceTypes=Krita/PythonPlugin
+X-KDE-Library=style_sheet_loader
+X-Python-2-Compatible=false
+X-Krita-Manual=Manual.html
+Name=Style Sheet Loader
+Comment=Loads a Qt Style Sheet and applies it to the UI.
