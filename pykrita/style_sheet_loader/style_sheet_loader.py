@@ -18,7 +18,7 @@ from krita import Extension
 from PyQt5.QtWidgets import QFileDialog, QMessageBox, QDialog, \
                             QVBoxLayout, QHBoxLayout, \
                             QWidget, QLabel, QPushButton, QLineEdit, QCheckBox
-from PyQt5.QtCore import QFile, QIODevice, QMimeDatabase, QFileInfo, pyqtSignal
+from PyQt5.QtCore import QFile, QIODevice, QMimeDatabase, QFileInfo, pyqtSignal, QDir
 
 EXTENSION_ID = 'pykrita_style_sheet_loader'
 MENU_ENTRY = 'Load Style Sheet'
@@ -123,7 +123,17 @@ class StyleSheetLoader(Extension):
             styleSheet = f"{str(data, 'utf-8')}"
             # There's not really a way to validate the stylesheet,
             # so just let it try to apply whatever's there.
-            Application.activeWindow().qwindow().setStyleSheet(styleSheet)
+            
+            # Replace [path] in stylesheet
+            filenameInPath = str(QDir(path).dirName())
+            #print("filenameInPath: ", filenameInPath)
+            directoryPath = path.replace(filenameInPath, "")
+            #print("directoryPath: ", directoryPath)
+            #print("path: ", path)
+            styleSheetWithEditedPath = styleSheet.replace("[path]", directoryPath)
+            #print("styleSheetWithEditedPath: ", styleSheetWithEditedPath)
+            
+            Application.activeWindow().qwindow().setStyleSheet(styleSheetWithEditedPath)
 
             self.setPath(path)
         else:
